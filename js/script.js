@@ -19,66 +19,227 @@ window.addEventListener("scroll", () => {
     }
   });
 });
-/* =============== Testimonial grabbing (scrolling)) ==================== */
-document.addEventListener("DOMContentLoaded", function () {
-  const testimonialRow = document.querySelector(".testimonial-row");
+/* =============== Testimonial infinite (scrolling)) ==================== */
+document.addEventListener("DOMContentLoaded", function() {
+    const testimonialTrack = document.getElementById('testimonial-track');
+    const testimonialContainer = document.querySelector('.testimonial-container');
+    
+    if (!testimonialTrack) return;
+    
+    // Store original items
+    const originalItems = Array.from(testimonialTrack.children);
+    function duplicateTestimonials() {
+        // Clear and recreate with enough duplicates
+        testimonialTrack.innerHTML = '';
+        
+        // Create enough duplicates to fill at least 2 screens
+        const itemWidth = originalItems[0]?.offsetWidth + 25; // width + gap
+        const screenWidth = window.innerWidth;
+        const itemsPerScreen = Math.ceil(screenWidth / itemWidth);
+        const totalCopies = Math.max(3, Math.ceil(2 * screenWidth / (itemWidth * originalItems.length)));
+        
+        // Add multiple copies
+        for (let i = 0; i < totalCopies; i++) {
+            originalItems.forEach(item => {
+                const clone = item.cloneNode(true);
+                testimonialTrack.appendChild(clone);
+            });
+        }
+    }
+    
+    // Create seamless loop function
+    function setupSeamlessLoop() {
+        const items = Array.from(testimonialTrack.children);
+        const itemWidth = items[0]?.offsetWidth + 25;
+        const totalWidth = items.length * itemWidth;
+        const visibleWidth = testimonialContainer.clientWidth;
+        
+        // Reset animation
+        testimonialTrack.style.animation = 'none';
+        testimonialTrack.offsetHeight;
+        testimonialTrack.style.animation = '';
+        
+        const duration = (totalWidth / 100) * 2; // Adjust speed
+        testimonialTrack.style.animationDuration = `${duration}s`;
+        
+        testimonialTrack.addEventListener('animationiteration', function() {
+            requestAnimationFrame(() => {});
+        });
+    }
+    
+    // Calculate animation duration
+    function setAnimationDuration() {
+        const items = testimonialTrack.children;
+        if (items.length === 0) return;
+        
+        const itemWidth = items[0].offsetWidth + 25;
+        const totalWidth = items.length * itemWidth;
+        const speed = 50;
+        const duration = totalWidth / speed;
+        
+        testimonialTrack.style.animationDuration = `${duration}s`;
+    }
+    
+    // Enable/disable auto-scroll based on user interaction
+    function setupUserInteractions() {
+        let autoScrollEnabled = true;
+        let userHasScrolled = false;
+        let scrollTimeout;
 
-  let isMouseDown = false;
-  let startX;
-  let scrollLeft;
+        testimonialContainer.addEventListener('scroll', function() {
+            userHasScrolled = true;
+            testimonialTrack.style.animationPlayState = 'paused';
+            
+            // Re-enable auto-scroll after 3 seconds of inactivity
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                if (userHasScrolled) {
+                    userHasScrolled = false;
+                    testimonialTrack.style.animationPlayState = 'running';
+                }
+            }, 1000);
+        });
+        
+        // Pause on hover
+        testimonialContainer.addEventListener('mouseenter', function() {
+            testimonialTrack.style.animationPlayState = 'paused';
+        });
+        
+        testimonialContainer.addEventListener('mouseleave', function() {
+            if (!userHasScrolled) {
+                testimonialTrack.style.animationPlayState = 'running';
+            }
+        });
+        
+        // Touch
+        let touchStartX = 0;
+        
+        testimonialContainer.addEventListener('touchstart', function(e) {
+            touchStartX = e.touches[0].clientX;
+            testimonialTrack.style.animationPlayState = 'paused';
+            userHasScrolled = true;
+        }, {passive: true});
+        
+        testimonialContainer.addEventListener('touchend', function() {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                userHasScrolled = false;
+                testimonialTrack.style.animationPlayState = 'running';
+            }, 3000);
+        }, {passive: true});
 
-  testimonialRow.addEventListener("mousedown", (e) => {
-    isMouseDown = true;
-    startX = e.pageX - testimonialRow.offsetLeft;
-    scrollLeft = testimonialRow.scrollLeft; 
-    testimonialRow.style.cursor = "grabbing";
-  });
+        testimonialTrack.addEventListener('animationstart', function() {
+            userHasScrolled = false;
+        });
+    }
+    
+    duplicateTestimonials();
+    setupSeamlessLoop();
+    setAnimationDuration();
+    setupUserInteractions();
 
-  testimonialRow.addEventListener("mouseleave", () => {
-    isMouseDown = false;
-    testimonialRow.style.cursor = "grab";
-  });
-
-  testimonialRow.addEventListener("mouseup", () => {
-    isMouseDown = false;
-    testimonialRow.style.cursor = "grab";
-  });
-
-  testimonialRow.addEventListener("mousemove", (e) => {
-    if (!isMouseDown) return;
-
-    e.preventDefault();
-    const x = e.pageX - testimonialRow.offsetLeft;
-    const walk = (x - startX) * 10;
-    testimonialRow.scrollLeft = scrollLeft - walk;
-  });
+    let resizeTimer;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            duplicateTestimonials();
+            setupSeamlessLoop();
+            setAnimationDuration();
+        }, 250);
+    });
+    
+    // Alternative: JavaScript-based seamless loop
+    function setupJSSeamlessLoop() {
+        const items = Array.from(testimonialTrack.children);
+        if (items.length === 0) return;
+        
+        let position = 0;
+        let animationId;
+        const speed = 0.3; 
+        
+        function animate() {
+            const itemWidth = items[0].offsetWidth + 25;
+            const totalWidth = items.length * itemWidth;
+            const resetPoint = totalWidth / 2; 
+            
+            position -= speed;
+            
+            if (Math.abs(position) >= resetPoint) {
+                position = 0;
+            }
+            
+            testimonialTrack.style.transform = `translateX(${position}px)`;
+            testimonialTrack.style.animation = 'none';
+            animationId = requestAnimationFrame(animate);
+        }
+        
+        testimonialTrack.style.animation = 'none';
+        
+        animate();
+        
+        let isPaused = false;
+        
+        testimonialContainer.addEventListener('mouseenter', () => {
+            isPaused = true;
+        });
+        
+        testimonialContainer.addEventListener('mouseleave', () => {
+            isPaused = false;
+        });
+        const originalAnimate = animate;
+        animate = function() {
+            if (!isPaused) {
+                originalAnimate();
+            } else {
+                animationId = requestAnimationFrame(animate);
+            }
+        };
+        
+        window.addEventListener('beforeunload', () => {
+            cancelAnimationFrame(animationId);
+        });
+    }
+    
+    // Uncomment if CSS animation still has issues:
+    // setupJSSeamlessLoop();
 });
-/* =============== scrolling animations ==================== */
+/* =============== page scrolling animations ==================== */
 document.addEventListener('DOMContentLoaded', () => {
   const sections = document.querySelectorAll('.section');
 
-  // Function to check if an element is in the viewport
   function isInViewport(element) {
     const rect = element.getBoundingClientRect();
     return rect.top >= 0 && rect.left >= 0 && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight);
   }
 
-  // Check if the sections are in the viewport and apply animation
   function checkVisibility() {
     sections.forEach(section => {
       if (isInViewport(section)) {
-        section.classList.add('visible'); // Trigger animation
+        section.classList.add('visible');
       } else {
-        section.classList.remove('visible'); // Reset if not in view
+        section.classList.remove('visible');
       }
     });
   }
-
-  // Listen for the scroll event
   window.addEventListener('scroll', checkVisibility);
-
-  // Initial check in case the user starts on a section that's already in view
   checkVisibility();
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const slideElements = document.querySelectorAll('.slide-in');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      entry.target.classList.toggle('active', entry.isIntersecting);
+    });
+  }, {
+    threshold: 0.15,
+    rootMargin: '0px 0px -100px 0px'
+  });
+
+  slideElements.forEach(element => {
+    observer.observe(element);
+  });
 });
 /* =============== contact (email) ==================== */
 document.addEventListener("DOMContentLoaded", function () {
