@@ -32,6 +32,7 @@ dayNight.addEventListener("click", () => {
 })
 window.addEventListener("load", () => {
 
+    //comment to default light mode
     document.body.classList.add("dark");
     
     if(document.body.classList.contains("dark"))
