@@ -584,6 +584,20 @@ h3.my-profession
     border-radius: 10px;
 }
 @media (max-width: 768px) {
+    .about .about-content .personal-info .info-item {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+    }
+    .about .about-content .personal-info .info-item p {
+        display: block;
+        padding: 12px 0;
+    }
+    .about .about-content .personal-info .info-item p span {
+        display: block;
+        margin-left: 0;
+        margin-top: 5px;
+        word-break: break-all;
+    }
     .home .button-container {
         flex-direction: column;
         gap: 15px;
@@ -1452,4 +1466,5 @@ h3.my-profession
 .slide-in.delay-2 { transition-delay: 0.3s; }
 .slide-in.delay-3 { transition-delay: 0.5s; }
 .slide-in.delay-4 { transition-delay: 0.7s; }
+
 
