@@ -567,6 +567,19 @@ h3.my-profession
     display: block;
     border-radius: 10px;
 }
+@media (max-width: 768px) {
+    .about .btn {
+        flex: 0 0 48%;
+        max-width: 48%;
+        margin-bottom: 20px;
+    }
+}
+@media (max-width: 480px) {
+    .about .btn {
+        flex: 0 0 100%; 
+        max-width: 100%;
+    }
+}
 /* Stats Row Style */
 .stats-row {
     display: flex;
@@ -1406,3 +1419,4 @@ h3.my-profession
 .slide-in.delay-2 { transition-delay: 0.3s; }
 .slide-in.delay-3 { transition-delay: 0.5s; }
 .slide-in.delay-4 { transition-delay: 0.7s; }
+
