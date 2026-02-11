@@ -128,7 +128,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (items.length === 0) return;
         
         // Slower animation on mobile
-        const speed = isMobile ? 40 : 60;
+        const speed = isMobile ? 400 : 450;
         const itemWidth = items[0]?.offsetWidth + 20 || 320;
         const totalWidth = items.length * itemWidth;
         const duration = totalWidth / speed;
@@ -270,3 +270,4 @@ document.addEventListener("DOMContentLoaded", function() {
             : '<i class="fas fa-arrows-alt-h"></i> Drag or scroll to explore';
     }
 });
+
