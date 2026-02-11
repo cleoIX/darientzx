@@ -23,6 +23,8 @@ html, body {
     max-width: 100% !important;
     overflow-x: hidden !important;
     position: relative;
+    margin: 0;
+    padding: 0;
 }
 
 body {
@@ -32,6 +34,13 @@ body {
 
 * {
     box-sizing: border-box;
+    max-width: 100%;
+
+}
+
+img, video, iframe, .container, .row, .section, .main-content {
+    max-width: 100%;
+    height: auto;
 }
 html {
     scroll-behavior: smooth;
@@ -1499,6 +1508,7 @@ h3.my-profession
 .slide-in.delay-2 { transition-delay: 0.3s; }
 .slide-in.delay-3 { transition-delay: 0.5s; }
 .slide-in.delay-4 { transition-delay: 0.7s; }
+
 
 
 
