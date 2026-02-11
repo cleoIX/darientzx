@@ -664,11 +664,6 @@ h3.my-profession
         font-size: 14px;
         padding: 6px 10px;
     }
-    .btn {
-        max-width: 260px !important;
-        padding: 10px 15px !important;
-        font-size: 15px !important;
-    }
 }
 /* Stats Row Style */
 .stats-row {
@@ -1518,21 +1513,6 @@ h3.my-profession
         padding-left: 15px !important;
         padding-right: 15px !important;
     }
-    .button-container {
-        flex-direction: column !important;
-        gap: 15px !important;
-        width: 100% !important;
-        align-items: center !important;
-    }
-    .btn {
-        white-space: normal !important;
-        word-wrap: break-word !important;
-        width: 100% !important;
-        max-width: 280px !important;
-        padding: 12px 20px !important;
-        font-size: 16px !important;
-        text-align: center !important;
-    }
 }
 /* Page loading animation CSS */
 .slide-in {
@@ -1558,11 +1538,4 @@ h3.my-profession
 .slide-in.delay-2 { transition-delay: 0.3s; }
 .slide-in.delay-3 { transition-delay: 0.5s; }
 .slide-in.delay-4 { transition-delay: 0.7s; }
-
-
-
-
-
-
-
 
