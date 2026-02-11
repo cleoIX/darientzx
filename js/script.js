@@ -19,186 +19,6 @@ window.addEventListener("scroll", () => {
     }
   });
 });
-/* =============== Testimonial infinite (scrolling)) ==================== */
-document.addEventListener("DOMContentLoaded", function() {
-    const testimonialTrack = document.getElementById('testimonial-track');
-    const testimonialContainer = document.querySelector('.testimonial-container');
-    
-    if (!testimonialTrack || !testimonialContainer) return;
-    
-    // Store original items
-    const originalItems = Array.from(testimonialTrack.children);
-    
-    // Function to duplicate testimonials
-    function duplicateTestimonials() {
-        if (originalItems.length === 0) return;
-        
-        // Clear and recreate with enough duplicates
-        testimonialTrack.innerHTML = '';
-        
-        // Get item width including gap
-        const itemWidth = originalItems[0].offsetWidth + 20; // 20px gap
-        const screenWidth = window.innerWidth;
-        const itemsPerScreen = Math.ceil(screenWidth / itemWidth);
-        const totalCopies = Math.max(3, itemsPerScreen * 2);
-        
-        // Add multiple copies
-        for (let i = 0; i < totalCopies; i++) {
-            originalItems.forEach(item => {
-                const clone = item.cloneNode(true);
-                testimonialTrack.appendChild(clone);
-            });
-        }
-    }
-    
-    // Set up animation
-    function setupAnimation() {
-        const items = testimonialTrack.children;
-        if (items.length === 0) return;
-        
-        const itemWidth = items[0].offsetWidth + 20;
-        const totalWidth = items.length * itemWidth;
-        const speed = 60; // pixels per second
-        const duration = totalWidth / speed;
-        
-        testimonialTrack.style.animationDuration = `${duration}s`;
-        testimonialTrack.style.animationPlayState = 'running';
-    }
-    
-    // ============ DRAG TO SCROLL FUNCTIONALITY ============
-    let isDragging = false;
-    let startX;
-    let scrollLeft;
-    let autoScrollPaused = false;
-    let resumeTimeout;
-    
-    testimonialContainer.addEventListener('mousedown', (e) => {
-        isDragging = true;
-        startX = e.pageX - testimonialContainer.offsetLeft;
-        scrollLeft = testimonialContainer.scrollLeft;
-        testimonialContainer.style.cursor = 'grabbing';
-        testimonialTrack.style.animationPlayState = 'paused';
-        autoScrollPaused = true;
-        
-        clearTimeout(resumeTimeout);
-    });
-    
-    testimonialContainer.addEventListener('mouseleave', () => {
-        if (!isDragging) {
-            testimonialContainer.style.cursor = 'grab';
-        }
-    });
-    
-    testimonialContainer.addEventListener('mouseup', () => {
-        isDragging = false;
-        testimonialContainer.style.cursor = 'grab';
-        
-        clearTimeout(resumeTimeout);
-        resumeTimeout = setTimeout(() => {
-            if (!isDragging && autoScrollPaused) {
-                testimonialTrack.style.animationPlayState = 'running';
-                autoScrollPaused = false;
-            }
-        }, 100);
-    });
-    
-    testimonialContainer.addEventListener('mousemove', (e) => {
-        if (!isDragging) return;
-        e.preventDefault();
-        
-        const x = e.pageX - testimonialContainer.offsetLeft;
-        const walk = (x - startX) * 1.5;
-        testimonialContainer.scrollLeft = scrollLeft - walk;
-    });
-    
-    testimonialContainer.addEventListener('touchstart', (e) => {
-        isDragging = true;
-        startX = e.touches[0].pageX - testimonialContainer.offsetLeft;
-        scrollLeft = testimonialContainer.scrollLeft;
-        testimonialTrack.style.animationPlayState = 'paused';
-        autoScrollPaused = true;
-        
-        clearTimeout(resumeTimeout);
-    }, { passive: true });
-    
-    testimonialContainer.addEventListener('touchend', () => {
-        isDragging = false;
-        
-        clearTimeout(resumeTimeout);
-        resumeTimeout = setTimeout(() => {
-            if (!isDragging && autoScrollPaused) {
-                testimonialTrack.style.animationPlayState = 'running';
-                autoScrollPaused = false;
-            }
-        }, 100);
-    }, { passive: true });
-    
-    testimonialContainer.addEventListener('touchmove', (e) => {
-        if (!isDragging) return;
-        
-        const x = e.touches[0].pageX - testimonialContainer.offsetLeft;
-        const walk = (x - startX) * 1.5;
-        testimonialContainer.scrollLeft = scrollLeft - walk;
-    }, { passive: false });
-    
-    testimonialContainer.addEventListener('mouseenter', () => {
-        if (!isDragging) {
-            testimonialTrack.style.animationPlayState = 'paused';
-            autoScrollPaused = true;
-        }
-    });
-    
-    testimonialContainer.addEventListener('mouseleave', () => {
-        if (!isDragging && autoScrollPaused) {
-            clearTimeout(resumeTimeout);
-            resumeTimeout = setTimeout(() => {
-                if (!isDragging && autoScrollPaused) {
-                    testimonialTrack.style.animationPlayState = 'running';
-                    autoScrollPaused = false;
-                }
-            }, 1000);
-        }
-    });
-    
-    testimonialContainer.addEventListener('wheel', (e) => {
-        testimonialTrack.style.animationPlayState = 'paused';
-        autoScrollPaused = true;
-        
-        if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
-            testimonialContainer.scrollLeft += e.deltaX;
-        }
-        
-        clearTimeout(resumeTimeout);
-        resumeTimeout = setTimeout(() => {
-            if (!isDragging && autoScrollPaused) {
-                testimonialTrack.style.animationPlayState = 'running';
-                autoScrollPaused = false;
-            }
-        }, 2000);
-    }, { passive: true });
-    
-    testimonialTrack.addEventListener('animationiteration', () => {
-        requestAnimationFrame(() => {
-        });
-    });
-    
-    duplicateTestimonials();
-    setupAnimation();
-    
-    let resizeTimer;
-    window.addEventListener('resize', () => {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(() => {
-            duplicateTestimonials();
-            setupAnimation();
-        }, 250);
-    });
-    
-    const scrollIndicator = document.querySelector('.testimonial-scroll-indicator');
-    if (scrollIndicator) {
-        scrollIndicator.innerHTML = '<i class="fas fa-arrows-alt-h"></i> Drag or scroll to explore testimonials';
-    }
-});
 /* =============== page scrolling animations ==================== */
 document.addEventListener('DOMContentLoaded', () => {
   const sections = document.querySelectorAll('.section');
@@ -260,5 +80,176 @@ document.addEventListener("DOMContentLoaded", function () {
                     console.error("EmailJS error:", error);
                 });
         });
+    }
+});
+/* =============== Testimonial infinite (scrolling) ==================== */
+document.addEventListener("DOMContentLoaded", function() {
+    const testimonialTrack = document.getElementById('testimonial-track');
+    const testimonialContainer = document.querySelector('.testimonial-container');
+    
+    if (!testimonialTrack || !testimonialContainer) return;
+    
+    // Check if mobile
+    const isMobile = window.innerWidth <= 767;
+    
+    // Store original items
+    const originalItems = Array.from(testimonialTrack.children);
+    
+    // Function to duplicate testimonials
+    function duplicateTestimonials() {
+        if (originalItems.length === 0) return;
+        
+        // Clear and recreate with enough duplicates
+        testimonialTrack.innerHTML = '';
+        
+        // For mobile: fewer duplicates to prevent performance issues
+        const totalCopies = isMobile ? 2 : 4;
+        
+        // Add multiple copies
+        for (let i = 0; i < totalCopies; i++) {
+            originalItems.forEach(item => {
+                const clone = item.cloneNode(true);
+                testimonialTrack.appendChild(clone);
+            });
+        }
+    }
+    
+    // Set up animation
+    function setupAnimation() {
+        const items = testimonialTrack.children;
+        if (items.length === 0) return;
+        
+        // Slower animation on mobile
+        const speed = isMobile ? 40 : 60;
+        const itemWidth = items[0]?.offsetWidth + 20 || 320;
+        const totalWidth = items.length * itemWidth;
+        const duration = totalWidth / speed;
+        
+        testimonialTrack.style.animationDuration = `${duration}s`;
+        testimonialTrack.style.animationPlayState = 'running';
+    }
+    
+    // ============ SIMPLIFIED DRAG TO SCROLL ============
+    let isDragging = false;
+    let startX;
+    let scrollLeft;
+    let resumeTimeout;
+    
+    // Only add drag handlers on non-mobile or for better mobile support
+    if (!isMobile) {
+        // Mouse events (desktop only)
+        testimonialContainer.addEventListener('mousedown', handleDragStart);
+        testimonialContainer.addEventListener('mouseleave', handleDragEnd);
+        testimonialContainer.addEventListener('mouseup', handleDragEnd);
+        testimonialContainer.addEventListener('mousemove', handleDragMove);
+        testimonialContainer.addEventListener('mouseenter', () => {
+            testimonialTrack.style.animationPlayState = 'paused';
+        });
+        testimonialContainer.addEventListener('mouseleave', () => {
+            clearTimeout(resumeTimeout);
+            resumeTimeout = setTimeout(() => {
+                testimonialTrack.style.animationPlayState = 'running';
+            }, 1000);
+        });
+        testimonialContainer.addEventListener('wheel', handleWheel);
+    }
+    
+    // Touch events with passive: false for better performance
+    testimonialContainer.addEventListener('touchstart', handleTouchStart, { passive: true });
+    testimonialContainer.addEventListener('touchend', handleTouchEnd, { passive: true });
+    testimonialContainer.addEventListener('touchmove', handleTouchMove, { passive: false });
+    
+    function handleDragStart(e) {
+        isDragging = true;
+        startX = e.pageX - testimonialContainer.offsetLeft;
+        scrollLeft = testimonialContainer.scrollLeft;
+        testimonialContainer.style.cursor = 'grabbing';
+        testimonialTrack.style.animationPlayState = 'paused';
+        clearTimeout(resumeTimeout);
+        e.preventDefault();
+    }
+    
+    function handleDragEnd() {
+        if (isDragging) {
+            isDragging = false;
+            testimonialContainer.style.cursor = 'grab';
+            clearTimeout(resumeTimeout);
+            resumeTimeout = setTimeout(() => {
+                testimonialTrack.style.animationPlayState = 'running';
+            }, 2000);
+        }
+    }
+    
+    function handleDragMove(e) {
+        if (!isDragging) return;
+        e.preventDefault();
+        
+        const x = e.pageX - testimonialContainer.offsetLeft;
+        const walk = (x - startX) * 1.5;
+        testimonialContainer.scrollLeft = scrollLeft - walk;
+    }
+    
+    function handleTouchStart(e) {
+        isDragging = true;
+        startX = e.touches[0].pageX - testimonialContainer.offsetLeft;
+        scrollLeft = testimonialContainer.scrollLeft || 0;
+        testimonialTrack.style.animationPlayState = 'paused';
+        clearTimeout(resumeTimeout);
+    }
+    
+    function handleTouchEnd() {
+        isDragging = false;
+        clearTimeout(resumeTimeout);
+        resumeTimeout = setTimeout(() => {
+            testimonialTrack.style.animationPlayState = 'running';
+        }, 2000);
+    }
+    
+    function handleTouchMove(e) {
+        if (!isDragging) return;
+        e.preventDefault();
+        
+        const x = e.touches[0].pageX - testimonialContainer.offsetLeft;
+        const walk = (x - startX) * 1.5;
+        testimonialContainer.scrollLeft = scrollLeft - walk;
+    }
+    
+    function handleWheel(e) {
+        testimonialTrack.style.animationPlayState = 'paused';
+        
+        if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+            testimonialContainer.scrollLeft += e.deltaX;
+        } else {
+            testimonialContainer.scrollLeft += e.deltaY * 0.5;
+        }
+        
+        clearTimeout(resumeTimeout);
+        resumeTimeout = setTimeout(() => {
+            testimonialTrack.style.animationPlayState = 'running';
+        }, 2000);
+        
+        e.preventDefault();
+    }
+    
+    // Initialize
+    duplicateTestimonials();
+    setupAnimation();
+    
+    // Handle window resize
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            // Reload on resize if needed
+            location.reload(); // Simple solution, or re-init
+        }, 250);
+    });
+    
+    // Add scroll indicator
+    const scrollIndicator = document.querySelector('.testimonial-scroll-indicator');
+    if (scrollIndicator) {
+        scrollIndicator.innerHTML = isMobile 
+            ? '<i class="fas fa-arrows-alt-h"></i> Swipe to explore' 
+            : '<i class="fas fa-arrows-alt-h"></i> Drag or scroll to explore';
     }
 });
