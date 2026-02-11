@@ -1108,12 +1108,21 @@ h3.my-profession
 
 /* Contact section fixes */
 .contact-blankrow {
-    margin-top: 30px !important;
-    margin-bottom: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 40px auto 0 !important;
+    padding: 0 20px !important;
 }
 
 .contact-title {
     margin-bottom: 10px !important;
+    text-align: center !important;
+    width: 100% !important;
 }
 
 .contact-sub-title {
@@ -1142,7 +1151,8 @@ h3.my-profession
     }
     
     .contact-blankrow {
-        margin-top: 20px !important;
+        margin-top: 30px !important;
+        padding: 0 15px !important;
     }
     
     .contact-title {
@@ -1709,6 +1719,7 @@ h3.my-profession
 .slide-in.delay-2 { transition-delay: 0.3s; }
 .slide-in.delay-3 { transition-delay: 0.5s; }
 .slide-in.delay-4 { transition-delay: 0.7s; }
+
 
 
 
