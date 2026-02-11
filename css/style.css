@@ -1126,7 +1126,6 @@ h3.my-profession
 }
 
 .contact-sub-title {
-    margin-bottom: 0 !important;
     padding-bottom: 0 !important;
     line-height: 1.5;
 }
@@ -1719,6 +1718,7 @@ h3.my-profession
 .slide-in.delay-2 { transition-delay: 0.3s; }
 .slide-in.delay-3 { transition-delay: 0.5s; }
 .slide-in.delay-4 { transition-delay: 0.7s; }
+
 
 
 
