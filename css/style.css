@@ -1515,7 +1515,6 @@ h3.my-profession
         padding-right: 15px !important;
     }
     
-    /* ===== HOME SECTION VERTICAL CENTERING ===== */
     .home {
         display: flex !important;
         align-items: center !important;
@@ -1555,18 +1554,6 @@ h3.my-profession
         padding: 12px 20px !important;
         font-size: 16px !important;
         text-align: center !important;
-    }
-    
-    /* ===== OTHER FIXES ===== */
-    .contact .contact-info-item,
-    .awards .awards-item,
-    .services .services-item {
-        flex: 0 0 50%;
-        max-width: 50%;
-    }
-    
-    .home .home-img {
-        display: none;
     }
 }
 /* Page loading animation CSS */
