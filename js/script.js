@@ -143,7 +143,7 @@ document.addEventListener("DOMContentLoaded", function() {
     let scrollLeft;
     let resumeTimeout;
     
-    // Only add drag handlers on non-mobile or for better mobile support
+    // Only add drag handlers on non-mobile
     if (!isMobile) {
         // Mouse events (desktop only)
         testimonialContainer.addEventListener('mousedown', handleDragStart);
@@ -162,7 +162,7 @@ document.addEventListener("DOMContentLoaded", function() {
         testimonialContainer.addEventListener('wheel', handleWheel);
     }
     
-    // Touch events with passive: false for better performance
+    // Touch events
     testimonialContainer.addEventListener('touchstart', handleTouchStart, { passive: true });
     testimonialContainer.addEventListener('touchend', handleTouchEnd, { passive: true });
     testimonialContainer.addEventListener('touchmove', handleTouchMove, { passive: false });
@@ -243,13 +243,22 @@ document.addEventListener("DOMContentLoaded", function() {
     duplicateTestimonials();
     setupAnimation();
     
-    // Handle window resize
+    // FIXED: Remove the reload on resize - just re-initialize without reloading
     let resizeTimer;
-    window.addEventListener('resize', () => {
+    window.addEventListener('resize', function() {
         clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(() => {
-            // Reload on resize if needed
-            location.reload(); // Simple solution, or re-init
+        resizeTimer = setTimeout(function() {
+            // Check if mobile state changed
+            const wasMobile = isMobile;
+            const nowMobile = window.innerWidth <= 767;
+            
+            // Only re-initialize if we crossed the mobile threshold
+            if (wasMobile !== nowMobile) {
+                // Just update the animation, don't reload
+                testimonialTrack.style.animation = 'none';
+                testimonialTrack.offsetHeight; // Trigger reflow
+                setupAnimation();
+            }
         }, 250);
     });
     
