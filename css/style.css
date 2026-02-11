@@ -17,6 +17,22 @@ body.dark
     --text-black-700:#e9e9e9;
     --footer-bg:rgb(14, 13, 17);
 }
+/* Add this as the first rules in your CSS */
+html, body {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+    position: relative;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+* {
+    box-sizing: border-box;
+}
 html {
     scroll-behavior: smooth;
 }
@@ -1212,9 +1228,16 @@ h3.my-profession
         width: 300px;
     }
 }
-@media (max-width: 767px) {
+@media (max-width: 768px) {
     .testimonial-item {
-        width: 280px;
+        width: 85vw !important;
+        max-width: 85vw !important;
+        flex: 0 0 auto !important;
+    }
+    
+    .testimonial-container {
+        width: 100vw !important;
+        overflow: hidden !important;
     }
 }
 .testimonial-scroll-indicator {
@@ -1419,4 +1442,3 @@ h3.my-profession
 .slide-in.delay-2 { transition-delay: 0.3s; }
 .slide-in.delay-3 { transition-delay: 0.5s; }
 .slide-in.delay-4 { transition-delay: 0.7s; }
-
