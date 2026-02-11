@@ -938,7 +938,7 @@ h3.my-profession
     color: var(--text-black-900);
     text-align: center;
     font-size: 18px;
-    margin-bottom: 60px;
+    margin-bottom: 30px;
 }
 .award-logo-container {
     width: 200px;
@@ -1087,6 +1087,84 @@ h3.my-profession
     max-width: 50%;
     height: 50px;
     padding: 0 50px;
+}
+/* =============== FIX SPACING ISSUES =============== */
+
+/* Reduce section container padding */
+.section .container {
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+/* Awards section fixes */
+.awards-heading {
+    color: var(--text-black-900);
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 30px !important;
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+/* Contact section fixes */
+.contact-blankrow {
+    margin-top: 30px !important;
+    margin-bottom: 0 !important;
+}
+
+.contact-title {
+    margin-bottom: 10px !important;
+}
+
+.contact-sub-title {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+    line-height: 1.5;
+}
+
+/* Remove extra spacing from last element in contact section */
+.contact .container > .row:last-child,
+.contact .container > div:last-child {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+/* Mobile specific fixes */
+@media (max-width: 767px) {
+    .section .container {
+        padding-top: 30px !important;
+        padding-bottom: 30px !important;
+    }
+    
+    .awards-heading {
+        margin-bottom: 20px !important;
+        font-size: 16px !important;
+    }
+    
+    .contact-blankrow {
+        margin-top: 20px !important;
+    }
+    
+    .contact-title {
+        font-size: 20px !important;
+        margin-bottom: 8px !important;
+    }
+    
+    .contact-sub-title {
+        font-size: 13px !important;
+    }
+}
+
+/* Tablet fixes */
+@media (min-width: 768px) and (max-width: 991px) {
+    .section .container {
+        padding-top: 35px !important;
+        padding-bottom: 35px !important;
+    }
+    
+    .contact-blankrow {
+        margin-top: 25px !important;
+    }
 }
 .confirmation
 {
@@ -1602,6 +1680,7 @@ h3.my-profession
 .slide-in.delay-2 { transition-delay: 0.3s; }
 .slide-in.delay-3 { transition-delay: 0.5s; }
 .slide-in.delay-4 { transition-delay: 0.7s; }
+
 
 
 
