@@ -1153,6 +1153,35 @@ h3.my-profession
     .contact-sub-title {
         font-size: 13px !important;
     }
+    .contact .row {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 15px !important;
+        justify-content: center !important;
+    }
+    
+    .contact .contact-info-item {
+        flex: 0 0 calc(50% - 15px) !important;
+        max-width: calc(50% - 15px) !important;
+        margin: 0 !important;
+        padding: 15px 10px !important;
+    }
+    
+    /* Optional: Hide the paragraph text on very small screens to save space */
+    @media (max-width: 480px) {
+        .contact .contact-info-item p {
+            display: none; /* Hide description text, show only icon and title */
+        }
+        
+        .contact .contact-info-item {
+            padding: 12px 5px !important;
+        }
+        
+        .contact .contact-info-item h4 {
+            margin: 8px 0 0 !important;
+            font-size: 14px !important;
+        }
+    }
 }
 
 /* Tablet fixes */
@@ -1680,6 +1709,7 @@ h3.my-profession
 .slide-in.delay-2 { transition-delay: 0.3s; }
 .slide-in.delay-3 { transition-delay: 0.5s; }
 .slide-in.delay-4 { transition-delay: 0.7s; }
+
 
 
 
