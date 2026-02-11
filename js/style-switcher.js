@@ -26,69 +26,26 @@ function setActiveStyle(color) {
 /* ========== light n dark mode ========= */
 const dayNight = document.querySelector(".day-night");
 
-// Only set up theme switcher if element exists and not on mobile
-if (dayNight && window.innerWidth > 767) {
+dayNight.addEventListener("click", () => {
+    const icon = dayNight.querySelector("i");
+    icon.classList.toggle("fa-sun");
+    icon.classList.toggle("fa-moon");
     
-    dayNight.addEventListener("click", () => {
-        const icon = dayNight.querySelector("i");
-        if (!icon) return; // Safety check
-        
-        // Toggle icon
-        icon.classList.toggle("fa-sun");
-        icon.classList.toggle("fa-moon");
-        
-        // Toggle dark mode
-        document.body.classList.toggle("dark");
-        
-        // Save preference
-        const isDarkMode = document.body.classList.contains("dark");
-        localStorage.setItem("theme", isDarkMode ? "dark" : "light");
-        
-        console.log(`Theme switched to: ${isDarkMode ? 'dark' : 'light'}`);
-    });
+    document.body.classList.toggle("dark");
+
+    localStorage.setItem("theme", document.body.classList.contains("dark") ? "dark" : "light");
+});
+
+window.addEventListener("load", () => {
+    const savedTheme = localStorage.getItem("theme");
     
-    // Initialize theme on page load
-    window.addEventListener("load", () => {
-        const savedTheme = localStorage.getItem("theme");
-        
-        // Default to light theme
-        let isDarkMode = false;
-        
-        if (savedTheme === "dark") {
-            isDarkMode = true;
-            document.body.classList.add("dark");
-        } else {
-            // Ensure light mode is set (default)
-            document.body.classList.remove("dark");
-            // Set light theme in localStorage if not set
-            if (!savedTheme) {
-                localStorage.setItem("theme", "light");
-            }
-        }
-        
-        // Update icon
-        const icon = dayNight.querySelector("i");
-        if (icon) {
-            if (isDarkMode) {
-                icon.classList.add("fa-sun");
-                icon.classList.remove("fa-moon");
-            } else {
-                icon.classList.add("fa-moon");
-                icon.classList.remove("fa-sun");
-            }
-        }
-    });
-    
-} else {
-    // On mobile or if dayNight element doesn't exist
-    // Force light theme and hide switcher
-    if (dayNight && window.innerWidth <= 767) {
-        dayNight.style.display = 'none';
-    }
-    
-    // Ensure light theme on mobile
-    window.addEventListener("load", () => {
+    if (savedTheme === "dark") {
+        document.body.classList.add("dark");
+        dayNight.querySelector("i").classList.add("fa-sun");
+        dayNight.querySelector("i").classList.remove("fa-moon");
+    } else {
         document.body.classList.remove("dark");
-        // Don't save theme preference from mobile
-    });
-}
+        dayNight.querySelector("i").classList.add("fa-moon");
+        dayNight.querySelector("i").classList.remove("fa-sun");
+    }
+});
