@@ -857,6 +857,28 @@ h3.my-profession
     transition: all 0.3s ease;
     text-align: center;
 }
+@media (max-width: 767px) {
+    .services .services-item {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        margin-bottom: 20px !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    
+    .services .services-item-inner {
+        width: 100% !important;
+        margin: 0 auto !important;
+    }
+}
+
+@media (max-width: 991px) and (min-width: 768px) {
+    .services .services-item {
+        flex: 0 0 50% !important;
+        max-width: 50% !important;
+    }
+}
 /* awards */
 /*achievement*/
 .achievement-item
@@ -1580,5 +1602,6 @@ h3.my-profession
 .slide-in.delay-2 { transition-delay: 0.3s; }
 .slide-in.delay-3 { transition-delay: 0.5s; }
 .slide-in.delay-4 { transition-delay: 0.7s; }
+
 
 
