@@ -583,16 +583,13 @@ h3.my-profession
     display: block;
     border-radius: 10px;
 }
-/* =============== About Section - Mobile Fix for Email & RNF =============== */
+/* =============== About Section - Mobile  =============== */
 @media (max-width: 767px) {
-    /* Force the personal info row to stack vertically */
     .about .about-content .personal-info .row {
         flex-direction: column;
         width: 100%;
         margin: 0;
     }
-    
-    /* Make each info item take full width */
     .about .about-content .personal-info .info-item {
         flex: 0 0 100% !important;
         max-width: 100% !important;
@@ -601,8 +598,6 @@ h3.my-profession
         padding-left: 0;
         padding-right: 0;
     }
-    
-    /* Style the paragraph for better mobile readability */
     .about .about-content .personal-info .info-item p {
         display: flex;
         flex-direction: column;
@@ -615,8 +610,6 @@ h3.my-profession
         border-radius: 8px;
         word-break: break-word;
     }
-    
-    /* Make the label (Email : / RNF no :) bold and full width */
     .about .about-content .personal-info .info-item p strong,
     .about .about-content .personal-info .info-item p b,
     .about .about-content .personal-info .info-item p:first-child {
@@ -624,8 +617,6 @@ h3.my-profession
         color: var(--text-black-900);
         margin-bottom: 5px;
     }
-    
-    /* Style the actual email/RNF number */
     .about .about-content .personal-info .info-item p span {
         display: block;
         margin-left: 0;
@@ -638,19 +629,12 @@ h3.my-profession
         border-radius: 6px;
         width: 100%;
     }
-    
-    /* Make email clickable on mobile */
     .about .about-content .personal-info .info-item:first-child p span {
         color: var(--skin-color);
-        text-decoration: underline;
     }
-    
-    /* Add some spacing between the two items */
     .about .about-content .personal-info .info-item:last-child {
         margin-bottom: 0;
     }
-    
-    /* Center align the personal info container */
     .about .about-content .personal-info {
         flex: 0 0 100%;
         max-width: 100%;
@@ -658,8 +642,6 @@ h3.my-profession
         margin-top: 30px;
     }
 }
-
-/* For very small screens */
 @media (max-width: 480px) {
     .about .about-content .personal-info .info-item p {
         font-size: 15px;
@@ -1517,6 +1499,7 @@ h3.my-profession
 .slide-in.delay-2 { transition-delay: 0.3s; }
 .slide-in.delay-3 { transition-delay: 0.5s; }
 .slide-in.delay-4 { transition-delay: 0.7s; }
+
 
 
 
